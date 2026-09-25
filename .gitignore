@@ -1,0 +1,11 @@
+# キャッシュファイル類
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+
+# 日記の本体ファイル
+diaries/*
+
+## 保存用のファイルそのものは置いておく
+!diaries/.gitkeep
