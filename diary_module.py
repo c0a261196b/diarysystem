@@ -1,7 +1,5 @@
 # 色々とインポート
-import json
 from datetime import datetime
-from pathlib import Path
 
 # diaryクラスを定義
 class diary:
@@ -76,36 +74,36 @@ class diary:
 
 
 ### 以下はデバッグ用のテストコード
+if __name__ == '__main__':
+    testdiary = diary.Make("テスト日記", "テスト用の内容です。\n改行もします。")
+    print(testdiary.title)
+    print(testdiary.date)
+    print(testdiary.time)
+    print(testdiary.body)
+    print(testdiary.tags)
+    print()
+    print(testdiary.to_dict())
+    print()
+    print(testdiary)
+    print()
 
-testdiary = diary.Make("テスト日記", "テスト用の内容です。\n改行もします。")
-print(testdiary.title)
-print(testdiary.date)
-print(testdiary.time)
-print(testdiary.body)
-print(testdiary.tags)
-print()
-print(testdiary.to_dict())
-print()
-print(testdiary)
-print()
+    testdict = {
+        'title': 'テスト日記2',
+        'date': '2026/09/99',
+        'time': '11:22:40',
+        'body': 'テスト用の内容その2です。',
+        'tags': ['テスト1', 'test2']
+    }
 
-testdict = {
-    'title': 'テスト日記2',
-    'date': '2026/09/99',
-    'time': '11:22:40',
-    'body': 'テスト用の内容その2です。',
-    'tags': ['テスト1', 'test2']
-}
+    testdiary_2 = diary.from_dict(testdict)
 
-testdiary_2 = diary.from_dict(testdict)
-
-print(testdiary_2.title)
-print(testdiary_2.date)
-print(testdiary_2.time)
-print(testdiary_2.body)
-print(testdiary_2.tags)
-print()
-print(testdiary_2.to_dict())
-print()
-print(testdiary_2)
-print()
+    print(testdiary_2.title)
+    print(testdiary_2.date)
+    print(testdiary_2.time)
+    print(testdiary_2.body)
+    print(testdiary_2.tags)
+    print()
+    print(testdiary_2.to_dict())
+    print()
+    print(testdiary_2)
+    print()
