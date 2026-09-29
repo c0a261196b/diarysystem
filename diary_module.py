@@ -104,22 +104,29 @@ class diarymanager():
     ## クラスメソッドたち
     ### 明確にクラスを作るためのもの
     @classmethod
-    def load(cls, path: str = "./diaries", year: int = 0):
+    def load(cls, path: str = "./diaries", year: str = "0", month: str = "0"):
         ### ファイルを読み込むのに際して、ファイル名で使う日時は"年"しかないのでいったんはこれでOK
         this_year = datetime.now().strftime('%Y')
-        year_str = str(year)
+        this_month = datetime.now().strftime('%m')
         dirpath = Path(path)
         diarydata = {}
 
-        ### yearの中身が0のまま、もしくは長さが4以外 = 年度として使うには不適切ならとりあえず今年のを入れる
-        ### intにおける0 = Falseなのでこうも使える
-        if not year or len(year_str) != 4:
-            year_str = this_year
+        ### yearの中身の長さが4以外 = 年度として使うには不適切ならとりあえず今年のを入れる
+        if len(year) != 4:
+            year = this_year
+
+        ### 同様のことをmonthにも実行
+        ### monthの場合1~12に収まってない場合もダメにする
+        if len(month) != 2 and not (1 <= int(month) <= 12):
+            month = this_month
+
+        ### デフォルトの保存パスにmonthの文字列をつなげて「dirpath / month」という構造を作る
+        dirpath /= year
 
         ### ファイルの存在チェック(なかったら作成)
         ### 二行目はpathlibの/結合を使って読み込みたいファイル名も含めたPathを作っている
-        dirpath.mkdir(exist_ok=True)
-        filepath = dirpath / f'{year_str}_diaries.json'
+        dirpath.mkdir(parents=True, exist_ok=True)
+        filepath = dirpath / f'{year}_{month}_diaries.json'
 
         ### ファイルがなかったら新規作成しつつ、その中に空のjsonを書き込む
         if not filepath.exists():
