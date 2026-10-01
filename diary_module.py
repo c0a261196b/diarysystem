@@ -105,7 +105,6 @@ class diarymanager():
     ### 明確にクラスを作るためのもの
     @classmethod
     def load(cls, path: str = "./diaries", year: str = "0", month: str = "0"):
-        ### ファイルを読み込むのに際して、ファイル名で使う日時は"年"しかないのでいったんはこれでOK
         this_year = datetime.now().strftime('%Y')
         this_month = datetime.now().strftime('%m')
         dirpath = Path(path)
@@ -115,9 +114,17 @@ class diarymanager():
         if len(year) != 4:
             year = this_year
 
-        ### 同様のことをmonthにも実行
-        ### monthの場合1~12に収まってない場合もダメにする
-        if len(month) != 2 and not (1 <= int(month) <= 12):
+        ### monthに対しては1~12の範囲に収まっててほしいので [↓]
+        ### それ以外の範囲をいれたら容赦なく矯正しつつ、1~9は0埋めする
+        try:
+            month_int = int(month)
+            if 1 <= month_int <= 12:
+                month = month.zfill(2)
+            else:
+                month = this_month
+
+        ### 適当な文字とかを入れられたらこっちも矯正
+        except ValueError:
             month = this_month
 
         ### デフォルトの保存パスにmonthの文字列をつなげて「dirpath / month」という構造を作る
