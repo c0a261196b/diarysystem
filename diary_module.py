@@ -82,6 +82,9 @@ class diarymanager():
         self.path = Path(path)
         self.diary_datas = diarydata
         self.diary_keys = list(diarydata.keys()) ## 辞書のキーをインデックスしておく
+        self.diary_titles = []
+        for i in self.diary_keys:
+            self.diary_titles.append(self.diary_datas[i]['title'])
 
 
     ## 読み込んだ日記データのdictに新しい日記を追記する処理
@@ -100,6 +103,16 @@ class diarymanager():
                 json.dump(diaries_data, f, ensure_ascii=False, indent=4)
         except Exception as e:
             print(e)
+
+
+    ## インデックス番号だけからdiaryクラスを作成する処理
+    def show_diary(self, index):
+        ### 自身からdiaryのキーと辞書を引っ張ってくる
+        diary_keys = self.diary_keys
+        diary_dicts = self.diary_datas
+
+        return diary.from_dict(diary_dicts[diary_keys[index]])
+
 
     ## クラスメソッドたち
     ### 明確にクラスを作るためのもの
@@ -194,7 +207,9 @@ if __name__ == '__main__':
     print()
 
     diaries_test = diarymanager.load()
+    print(diaries_test)
     print(diaries_test.path)
     print(diaries_test.diary_datas)
     print(diaries_test.diary_keys)
+    print(diaries_test.diary_titles)
     
