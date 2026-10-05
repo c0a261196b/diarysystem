@@ -93,6 +93,8 @@ class diarymanager():
         newdiary_dictkey = data.dictkey
 
         self.diary_datas[newdiary_dictkey] = newdiary_entry
+        self.diary_keys.append(newdiary_dictkey)
+        self.diary_titles.append(data.title)
 
     def save(self):
         filepath = self.path
@@ -102,7 +104,7 @@ class diarymanager():
             with filepath.open('w') as f:
                 json.dump(diaries_data, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            print(e)
+            raise Exception(e)
 
 
     ## インデックス番号だけからdiaryクラスを作成する処理

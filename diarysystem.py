@@ -12,7 +12,7 @@ dict_diaries = {} ## jsonから読み出した日記データ用
 diarydatas = diarymanager.load()
 
 # メニュー一覧用のlistを作成
-menu_list =[
+menu_list = [
     '[日記の記録]',
     '[日記の閲覧]',
     '[日記の削除]',
