@@ -23,9 +23,13 @@ while True:
     choosen = menumaker('[実行する機能を選択してください]', menu_list, "> ", exit_option=True)
 
     match choosen:
+
+        # 選ぶと終了
         case 'end':
             print('[終了します]')
             break
+
+        # 記録機能
         case 1:
             print('[タイトルを入力してください]')
             title = input('> ')
@@ -41,6 +45,8 @@ while True:
 
             # 保存
             diarydatas.save()
+
+        # 閲覧機能
         case 2:
             # メニュー用の一覧を作成
             diary_menus = [f'[{a} - {b}]' for a, b in zip(diarydatas.diary_titles, diarydatas.diary_keys)]
@@ -55,9 +61,45 @@ while True:
                 # インデックスから日記を探して出力
                 print(diarydatas.show_diary(diary_select-1))
 
-                # 続けて閲覧するかを
+                # 続けて閲覧するかを聞く
                 continueflag = flag_maker('[続けて閲覧しますか?(y/n)]', '> ')
                 if not continueflag:
                     break
+        
+        # 削除機能
+        case 3:
+            while True:
+                # メニュー用の一覧を作成
+                diary_menus = [f'[{a} - {b}]' for a, b in zip(diarydatas.diary_titles, diarydatas.diary_keys)]
+            
+                # 削除用のフラグ変数を初期化
+                rm_flag = False
+                rm_flag_2 = False
+
+                # メニューを表示 
+                diary_select = menumaker('[削除する日記のタイトルを選択してください]', diary_menus, "> ", exit_option=True, exit_opt_text='[戻る]')
+
+                # メニューで「戻る」が選ばれたらこのループをbreakして戻る
+                if diary_select == 'end':
+                    break
+
+                # インデックスから日記を探して出力
+                print(diarydatas.show_diary(diary_select-1))
+                rm_flag = flag_maker('[この日記を削除しますか?(y/n)]', '> ')
+                if rm_flag:
+                    rm_flag_2 = flag_maker('[本当ですね?(この選択で削除が確定します)(y/n)]', '> ')
+                    
+                if rm_flag and rm_flag_2:
+                    diarydatas.remove(diary_select-1)
+                    diarydatas.save()
+                    print('[削除しました]')
+                else:
+                    print('[削除がキャンセルされました]')
+
+                # 続けて削除するかを聞く
+                continueflag = flag_maker('[ほかに削除する日記はありますか?(y/n)]', '> ')
+                if not continueflag:
+                    break
+
         case _:
             pass

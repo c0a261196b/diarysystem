@@ -107,6 +107,13 @@ class diarymanager():
             raise Exception(e)
 
 
+    def remove(self, index):
+        # インデックス番号だけから指定要素を削除する機能
+        del self.diary_datas[self.diary_keys[index]]
+        del self.diary_keys[index]
+        del self.diary_titles[index]
+
+
     ## インデックス番号だけからdiaryクラスを作成する処理
     def show_diary(self, index):
         ### 自身からdiaryのキーと辞書を引っ張ってくる
